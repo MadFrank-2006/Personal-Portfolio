@@ -3,12 +3,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     color: var(--text-color);
     box-shadow: 0 2px 10px var(--shadow-color);
     position: sticky;
     top: 0;
-    opacity: 0.9;
+    backdrop-filter: blur(8px);
+    z-index: 1000;
 }
 
 .nav-title {
