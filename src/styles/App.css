@@ -1,8 +1,50 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  --primary-color: #4F46E5;
+  --secondary-color: #A78BFA;
+  --accent-color: #4F46E5;
+  --background-color: #F5F3FF;
+  --text-color: #1E1B4B;
+  --card-background: #FFFFFF;
+  --shadow-color: rgba(79, 70, 229, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 .logo {

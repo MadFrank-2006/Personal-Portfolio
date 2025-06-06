@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
+import './styles/App.css';
 
 function App() {
   
