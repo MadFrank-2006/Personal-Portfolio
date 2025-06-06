@@ -1,10 +1,9 @@
 .home {
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .hero {
     display: flex;
-    max-width: 60%;
     margin: 0 auto;
 }
 
@@ -13,7 +12,7 @@
     font-size: 1.2rem;
     line-height: 1.6;
     color: var(--text-color);
-    padding: 3rem 7rem 0 0;
+    padding: 1rem 7rem 0 0;
 }
 
 .welcome h1 {
@@ -33,5 +32,24 @@
   justify-content: center;
   position: relative;
   background-color: rgba(167, 139, 250, 0.6);
-  
+}
+
+.featured-project {
+  margin-top: 3rem;
+}
+
+.project-card {
+  border-radius: 15px;
+  background-color: var(--card-background);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.project-details {
+  border-radius: 15px;
+  background-color: var(--card-background);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
