@@ -12,8 +12,9 @@ function Home() {
                     I'm an ambitious computer science student at Indiana University Bloomington. 
                     I'm interested in full stack development and artificial intelligence. <br />
                     <br />
-                    If you happened to stumble upon this site, this is currently only the prototype and filled with silly dummy data for testing purposes.</p>
+                    If you happened to stumble upon this site, as of now, this website is my only project, so there's not any actual data. I will be adding all my future projects here though, so keep an eye out!</p>
             </div>
+            <img src="/headshotOutline.png" alt="Maddox Franklin" className="profile-image" />
         </section>
     </div>
     )

@@ -1,3 +1,36 @@
 .home {
   padding: 2rem 0;
 }
+
+.hero {
+    display: flex;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+.welcome {
+    max-width: 60%;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    padding: 3rem 7rem 0 0;
+}
+
+.welcome h1 {
+    font-size: 3rem;
+}
+
+.profile-image {
+    width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  max-width: 400px;
+  justify-self: end;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgba(167, 139, 250, 0.6);
+}
