@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
 
+const projects = [
+    {
+        title:"Resident Evil 4",
+        description: "My goat Leon Kennedy is a one man army, Las Plagas is lightwork",
+        image:"re3_cover_1.png",
+        tags: ["React", "Firebase"]
+    },
+    {
+        title:"Resident Evil 2",
+        description:"Game so goated on my life",
+        image:"re3_cover_1.png",
+        tags: ["Survival", "Horror"]
+    }
+]
+
 function Home() {
     return (
         <div className="home">
