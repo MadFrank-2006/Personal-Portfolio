@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
+import ProjectCard from "../components/ProjectCard"
 
 const projects = [
     {
@@ -47,6 +48,15 @@ function Home() {
                         <span className="tag">C#</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section className="recent-projects">
+            <h2>Recent Projects</h2>
+            <div className="recent-projects">
+                {projects.slice(0, 3).map((project, index) => (
+                    <ProjectCard />
+                ))}
             </div>
         </section>
     </div>
