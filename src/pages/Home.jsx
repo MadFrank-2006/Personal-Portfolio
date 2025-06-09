@@ -55,7 +55,7 @@ function Home() {
             <h2>Recent Projects</h2>
             <div className="recent-projects">
                 {projects.slice(0, 3).map((project, index) => (
-                    <ProjectCard />
+                    <ProjectCard key={index} {...project}/>
                 ))}
             </div>
         </section>
