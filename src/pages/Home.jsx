@@ -39,6 +39,24 @@ const projects = [
         description:"Chris Redfield and Sheva Alomar team up to take down the bioterrorist organization known as Tricell in Africa.",
         image:"re5_cover.jpg",
         tags: ["Action", "Adventure"]
+    },
+    {
+        title:"Resident Evil 0",
+        description:"RE0 is a prequel to the original Resident Evil game, following Rebecca Chambers and Billy Coen as they uncover the origins of the T-Virus outbreak.",
+        image:"re0_cover.avif",
+        tags: ["Survival", "Horror"]
+    },
+    {
+        title: "Resident Evil",
+        description: "The original Resident Evil game that started it all, featuring Chris Redfield and Jill Valentine as they explore the Spencer Mansion and uncover the secrets of the Umbrella Corporation.",
+        image: "re1_cover.jpg",
+        tags: ["Survival", "Horror"]
+    },
+    {
+        title: "Resident Evil Code: Veronica",
+        description: "Claire Redfield raids an Umbrella Corporation facility in Paris in search of her brother, Chris Redfield. Discovered by Umbrella's security forces and eventually captured, Claire is imprisoned on Rockfort Island, a prison complex owned by the corporation, situated in the Southern Ocean. She is knocked unconscious after arriving. Sometime after her imprisonment, Claire wakes up and finds herself released by the man who captured her, and discovers that an outbreak of the T-virus has occurred. In the resulting chaos, she finds herself teaming up with Steve Burnside, another inmate seeking to escape.",
+        image: "recv_cover.jfif",
+        tags: ["Survival", "Horror"]
     }
 ]
 
