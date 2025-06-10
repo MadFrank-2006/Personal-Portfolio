@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ProjectCard.css';
+import { useNavigate } from 'react-router-dom';
 
 function ProjectTags({tag}) {
     return (
@@ -8,8 +9,14 @@ function ProjectTags({tag}) {
 }
 
 function ProjectCard({title, description, image, tags}) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/projects/${id}');
+    };
+
     return (
-        <div className="project-cards">
+        <div className="project-cards" onClick={handleClick}>
             <div className="project-image">
                 <img src={image} alt={title}/>
             </div>
