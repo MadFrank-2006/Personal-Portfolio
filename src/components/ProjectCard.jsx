@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/ProjectCard.css';
 
 function ProjectTags({tag}) {
     return (
@@ -8,13 +9,13 @@ function ProjectTags({tag}) {
 
 function ProjectCard({title, description, image, tags}) {
     return (
-        <div className="project-card">
+        <div className="project-cards">
             <div className="project-image">
                 <img src={image} alt={title}/>
             </div>
             <div className="project-content">
-                <h1>{title}</h1>
-                <p>{description}</p>
+                <h3>{title}</h3>
+                <p className="clamp-3-lines">{description}</p>
                 <div className="project-tags">
                     {tags.map((tag, index) => (
                         <ProjectTags key={index} tag={tag} />
