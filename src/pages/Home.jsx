@@ -3,6 +3,7 @@ import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
 import ProjectCard from "../components/ProjectCard"
 import { projects } from "../data/projects";
+import FeaturedProject from "../components/FeaturedProject";
 
 function Home() {
     return (
@@ -21,27 +22,14 @@ function Home() {
 
         <section className="featured-project">
             <h2>Featured Project</h2>
-            <div className="project-card">
-                <img src="/re3_cover_1.png" alt="RE3 Cover" className="featured-image" />
-                <div className="project-details">
-                    <h3>Resident Evil 3</h3>
-                    <p>RE3 is a remake of the classic survival horror game, Resident Evil 3: Nemesis. 
-                        It features updated graphics, gameplay mechanics, and a reimagined story that follows Jill Valentine as she tries to escape Raccoon City during the T-Virus outbreak.
-                    </p>
-                    <div className="project-tags">
-                        <span className="tag">Game Development</span>
-                        <span className="tag">Unity</span>
-                        <span className="tag">C#</span>
-                    </div>
-                </div>
-            </div>
+            <FeaturedProject key={projects[4].id} {...projects[4]}/>
         </section>
 
         <section className="recent-projects">
             <h2>Recent Projects</h2>
             <div className="most-recent-projects">
-                {projects.slice(0, 3).map((project, index) => (
-                    <ProjectCard key={index} {...project}/>
+                {projects.slice(0, 3).map((project) => (
+                    <ProjectCard key={project.id} {...project}/>
                 ))}
             </div>
         </section>

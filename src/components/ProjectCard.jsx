@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ProjectCard.css';
 import { useNavigate } from 'react-router-dom';
+import ProjectTags from "./ProjectTags";
 
-function ProjectTags({tag}) {
-    return (
-        <div className="tag">{tag}</div>
-    )
-}
-
-function ProjectCard({title, description, image, tags}) {
+function ProjectCard({title, description, image, tags = [], id}) {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        console.log("Navigating to project ID:", id);
         navigate('/projects/${id}');
     };
 
