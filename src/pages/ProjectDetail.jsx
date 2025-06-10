@@ -24,7 +24,7 @@ function ProjectDetail() {
                 <h1>{project.title}</h1>
             </div>
             <div className="project-image">
-                <img src={project.image} alt={project.title} />
+                <img src={`/${project.image}`} alt={project.title} />
             </div>
             <div className="project-content">
                 <section>

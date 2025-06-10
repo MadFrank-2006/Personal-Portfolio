@@ -9,7 +9,7 @@ function FeaturedProject({ title, description, image, tags, id }) {
 
     const handleClick = () => {
         console.log("Navigating to project ID:", id);
-        navigate('/projects/${id}');
+        navigate(`/projects/${id}`);
     };
 
     return (
