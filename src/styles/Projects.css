@@ -1,0 +1,42 @@
+.projects {
+    padding: 2rem 0;
+}
+
+h1 {
+    padding-bottom: 1rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.project-grid > .featured-project {
+    grid-column: span 3;
+    margin: 0;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.project-grid > .featured-project:hover {
+  transform: translateY(-4px);
+}
+
+.featured-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: .25rem .75rem;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+}

@@ -39,6 +39,9 @@ function ProjectDetail() {
                         ))}
                     </div>
                 </section>
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+                    Visit Project
+                </a>
             </div>
         </div>
     )

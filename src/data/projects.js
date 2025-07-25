@@ -5,7 +5,8 @@ export const projects = [
         title:"Resident Evil 4",
         description: "My goat Leon Kennedy is a one man army, Las Plagas is lightwork",
         image:"re4_cover.jpg",
-        tags: ["React", "Firebase"]
+        tags: ["React", "Firebase"],
+        link: "https://www.youtube.com/watch?v=2bX6j1d3Q9c"
     },
     {
         id: 2,
