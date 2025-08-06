@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/ProjectDetail.css';
-import { projects } from "../data/projects";
+import { getProjects } from "../data/api";
 
 function ProjectDetail() {
+
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        getProjects().then(setProjects);
+    })
 
     const { id } = useParams();
     const project = projects.find((project) => project.id === parseInt(id));
@@ -24,7 +30,7 @@ function ProjectDetail() {
                 <h1>{project.title}</h1>
             </div>
             <div className="project-image">
-                <img src={`/${project.image}`} alt={project.title} />
+                <img src={project.image} alt={project.title} />
             </div>
             <div className="project-content">
                 <section>
@@ -39,7 +45,7 @@ function ProjectDetail() {
                         ))}
                     </div>
                 </section>
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+                <a href={project.url} target="_blank" rel="noopener noreferrer" className="project-link">
                     Visit Project
                 </a>
             </div>

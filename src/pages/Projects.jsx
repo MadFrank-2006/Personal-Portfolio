@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Projects.css';
-import { projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
 import FeaturedProject from "../components/FeaturedProject";
+import { getProjects } from "../data/api";
 
 function Projects() {
+
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        getProjects().then(setProjects);
+    }, []);
+
     return (
        <div className="projects">
             <h1>My Projects</h1>
             <div className="project-grid">
                 <div className="featured-project">
                     <div className="featured-badge">Featured</div>
-                    <FeaturedProject key={projects[4].id} {...projects[4]}/>
+                    {projects[4] && <FeaturedProject key={projects[4].id} {...projects[4]}/>}
                 </div>
 
                 {projects.map((project) => (
