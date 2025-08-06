@@ -9,10 +9,31 @@ import { getProjects } from "../data/api"
 function Home() {
 
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getProjects().then(setProjects);
+        getProjects().then(data => {
+            setProjects(data);
+            
+            const imagePromises = data.map(project => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.src = project.image;
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                });
+            });
+            Promise.all(imagePromises).then(() => {
+                setLoading(false);
+            });
+        });
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    const featuredProject = projects.find(project => project.featured);
 
     return (
         <div className="home">
@@ -30,7 +51,8 @@ function Home() {
 
         <section className="featured-project">
             <h2>Featured Project</h2>
-            {projects[4] && <FeaturedProject key={projects[4].id} {...projects[4]}/>}
+    
+            {featuredProject && <FeaturedProject key={featuredProject.id} {...featuredProject}/>}
         </section>
 
         <section className="recent-projects">

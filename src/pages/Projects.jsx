@@ -8,10 +8,30 @@ import { getProjects } from "../data/api";
 function Projects() {
 
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getProjects().then(setProjects);
+        getProjects().then(data => {
+            setProjects(data);
+
+            const imagePromises = data.map(project => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.src = project.image;
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                });
+            });
+            Promise.all(imagePromises).then(() => { setLoading(false); });
+        });
     }, []);
+
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    
+    const featuredProject = projects.find(project => project.featured);
 
     return (
        <div className="projects">
@@ -19,11 +39,11 @@ function Projects() {
             <div className="project-grid">
                 <div className="featured-project">
                     <div className="featured-badge">Featured</div>
-                    {projects[4] && <FeaturedProject key={projects[4].id} {...projects[4]}/>}
+                    {featuredProject && <FeaturedProject key={featuredProject.id} {...featuredProject}/>}
                 </div>
 
                 {projects.map((project) => (
-                    project.id != 5 && <ProjectCard key={project.id} {...project}/>
+                    !project.featured && <ProjectCard key={project.id} {...project}/>
                 ))}
             </div>
        </div> 
