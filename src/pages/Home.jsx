@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
 import ProjectCard from "../components/ProjectCard"
-import { projects } from "../data/projects";
+// import { projects } from "../data/projects";
 import FeaturedProject from "../components/FeaturedProject";
+import { getProjects } from "../data/api"
 
 function Home() {
+
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        getProjects().then(setProjects);
+    }, []);
+
     return (
         <div className="home">
         <section className="hero">
@@ -22,7 +30,7 @@ function Home() {
 
         <section className="featured-project">
             <h2>Featured Project</h2>
-            <FeaturedProject key={projects[4].id} {...projects[4]}/>
+            {projects[4] && <FeaturedProject key={projects[4].id} {...projects[4]}/>}
         </section>
 
         <section className="recent-projects">

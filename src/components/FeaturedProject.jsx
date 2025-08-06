@@ -20,7 +20,7 @@ function FeaturedProject({ title, description, image, tags, id }) {
                     <p>{description}
                     </p>
                     <div className="project-tags">
-                        {tags.map((tag, index) => (
+                        {tags && tags.map((tag, index) => (
                             <ProjectTags key={index} tag={tag} />
                         ))}
                     </div>
