@@ -21,6 +21,9 @@ function Navbar() {
                     <a href="https://github.com/MadFrank-2006" target="_blank" rel="noopener noreferrer">
                         <FaGithub />
                     </a>
+                    <Link to="/admin" className="admin-button">
+                        <FaLock />
+                    </Link>
                 </div>
             </div>
         </nav>
