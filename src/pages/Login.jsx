@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import "../styles/Login.css";
 
 function Login() {
     const { login } = useAuth();
@@ -27,7 +28,7 @@ function Login() {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
             <h1>Admin Login</h1>
             <input 
                 type="email"
