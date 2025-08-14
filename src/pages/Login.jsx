@@ -30,22 +30,24 @@ function Login() {
     return(
         <form onSubmit={handleSubmit} className="login-form">
             <h1>Admin Login</h1>
-            <input 
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-            />
-            <input 
-                type="password"
-                placeholder="Password"
-                value={pw}
-                onChange={e => setPw(e.target.value)}
-                autoComplete="current-password"
-                required
-            />
+            <div className="fields">
+                <input 
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    autoComplete="email"
+                    required
+                />
+                <input 
+                    type="password"
+                    placeholder="Password"
+                    value={pw}
+                    onChange={e => setPw(e.target.value)}
+                    autoComplete="current-password"
+                    required
+                />
+            </div>
             <button type="submit" disabled={submitting}>
                 {submitting ? "Signing in..." : "Log in"}
             </button>
