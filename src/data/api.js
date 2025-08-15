@@ -46,3 +46,35 @@ export async function createProject({ title, description, image = "", url, tags 
     });
     return ref.id;
 }
+
+// Updates an existing project
+export async function updateProject( id, patch) {
+    const ref = doc(db, "projects", id);
+    // Normalize patch data
+    const norm = { ...patch };
+    if (norm.title) norm.title = norm.title.trim();
+    if (norm.description) norm.description = norm.description.trim();
+    if (norm.image) norm.image = norm.image.trim();
+    if (norm.url) norm.url = norm.url.trim();
+    if (Array.isArray(norm.tages)) { norm.tags = norm.tags.map(tag => tag.trim()).filter(Boolean); }
+    if (norm.featured !== undefined) norm.featured = !!norm.featured;
+    norm.updatedAt = serverTimestamp();
+    await updateDoc(ref, norm);
+}
+
+// Deletes a project
+export async function deleteProject(id) {
+    await deleteDoc(doc(db, "projects", id));
+}
+
+// Set featured project, ensures only one project is featured at a time. Function is atomic, uses batch so it either fully completes or fully fails.
+export async function setFeatured(id) {
+    const q = query(col);
+    const snap = await getDocs(q);
+    const batch = writeBatch(db);
+    snap.forEach(doc => {
+        const isTarget = doc.id === id;
+        batch.update(doc(db, "projects", doc.id), { featured: isTarget });
+    });
+    await batch.commit();
+}
