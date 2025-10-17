@@ -68,7 +68,10 @@ function AdminDashboard() {
         image: ""
     });
 
-    const isEditing = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [file, setFile] = useState(null);
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -88,7 +91,50 @@ function AdminDashboard() {
             </div>
             <div className="admin-form">
                 <form onSubmit={handleSubmit}>
+                    <h2>{isEditing ? "Edit Project" : "Add Project"}</h2>
+                    <input 
+                        name="title" 
+                        placeholder="Title" 
+                        value={formData.title} 
+                        onChange={e => setFormData(f => ({...f, title: e.target.value}))}
+                        required
+                    />
+                    <textarea
+                        name="description"
+                        placeholder="Description"
+                        rows={4}
+                        value={formData.description}
+                        onChange={e => setFormData(f => ({...f, description: e.target.value}))}
+                    />
+                    <input
+                        name="tags"
+                        placeholder="Comma-separated tags"
+                        value={formData.tags}
+                        onChange={e => setFormData(f => ({...f, tags: e.target.value}))}
+                    />
+                    <input
+                        name="url"
+                        placeholder="Url to project if applicable"
+                        value={formData.url}
+                        onChange={e => setFormData(f => ({...f, url: e.target.value}))}
+                    />
+                    <input 
+                        type="file"
+                        accept="image/*"
+                        onChange={e => setFile(e.target.files?.[0] || null)}
+                    />
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="featured"
+                            checked={formData.featured}
+                            onChange={e => setFormData(f => ({...f, featured: e.target.checked}))}
+                        />
+                    </label>
 
+                    <div className="submitButton">
+                        <button type ="submit">{isEditing ? "Save Changes" : "Create Project"}</button>
+                    </div>
                 </form>
             </div>
         </div>
