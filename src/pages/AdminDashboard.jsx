@@ -21,7 +21,43 @@ function AdminDashboard() {
             return;
         }
 
-        
+        let data = {
+            title: formData.title.trim(),
+            description: formData.description.trim(),
+            tags: formData.tags.split(",").map(tag => tag.trim()).filter(Boolean),
+            url: formData.url.trim(),
+            featured: formData.featured
+        };
+
+        try {
+            if (isEditing) {
+                await updateProject(editId, data);
+                setProjects(prev =>
+                    prev.map(p => p.id === editId ? {...p, ...data} : p)
+                );
+                alert("Project updated");
+            } else {
+                const newId = await createProject(data);
+                setProjects(prev => [...prev, {id: newId, ...data}]);
+                alert("Project created");
+            }
+        } catch (err) {
+            console.error("Error saving project:", err);
+            alert("Something went wrong.");
+        }
+
+        setFormData({
+            title: "",
+            description: "",
+            tags: "",
+            url: "",
+            featured: false,
+            image: ""
+        });
+
+        setFile(null);
+        setIsEditing(false);
+        setEditId(null);
     }
 
     const handleSetFeatured = async (id) => {
@@ -46,7 +82,17 @@ function AdminDashboard() {
     }
 
     const handleEdit = (proj) => {
+        setFormData({
+            title: proj.title || "",
+            description: proj.description || "",
+            tags: proj.tags?.join(", ") || "",
+            url: proj.url || "",
+            featured: proj.featured || false,
+            image: proj.image || ""
+        });
 
+        setEditId(proj.id);
+        setIsEditing(true);
     }
 
     const handleLogout = () => {
@@ -57,7 +103,7 @@ function AdminDashboard() {
         .catch((error) => {
             console.error("Error logging out: ", error);
         });
-    };
+    }
 
     const [ formData, setFormData ] = useState({
         title: "",
@@ -71,6 +117,8 @@ function AdminDashboard() {
     const [isEditing, setIsEditing] = useState(false);
 
     const [file, setFile] = useState(null);
+
+    const [editId, setEditId] = useState(null);
 
 
     const handleChange = (e) => {
@@ -96,7 +144,7 @@ function AdminDashboard() {
                         name="title" 
                         placeholder="Title" 
                         value={formData.title} 
-                        onChange={e => setFormData(f => ({...f, title: e.target.value}))}
+                        onChange={handleChange}
                         required
                     />
                     <textarea
@@ -104,19 +152,19 @@ function AdminDashboard() {
                         placeholder="Description"
                         rows={4}
                         value={formData.description}
-                        onChange={e => setFormData(f => ({...f, description: e.target.value}))}
+                        onChange={handleChange}
                     />
                     <input
                         name="tags"
                         placeholder="Comma-separated tags"
                         value={formData.tags}
-                        onChange={e => setFormData(f => ({...f, tags: e.target.value}))}
+                        onChange={handleChange}
                     />
                     <input
                         name="url"
                         placeholder="Url to project if applicable"
                         value={formData.url}
-                        onChange={e => setFormData(f => ({...f, url: e.target.value}))}
+                        onChange={handleChange}
                     />
                     <input 
                         type="file"
@@ -128,7 +176,7 @@ function AdminDashboard() {
                             type="checkbox"
                             name="featured"
                             checked={formData.featured}
-                            onChange={e => setFormData(f => ({...f, featured: e.target.checked}))}
+                            onChange={handleChange}
                         />
                     </label>
 
@@ -137,6 +185,8 @@ function AdminDashboard() {
                     </div>
                 </form>
             </div>
+
+            
         </div>
     );
 }
