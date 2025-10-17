@@ -185,8 +185,42 @@ function AdminDashboard() {
                     </div>
                 </form>
             </div>
+            <div className="project-list">
+                <h2>All Projects</h2>
+                {projects.length === 0 ? (
+                    <p>No projects yet.</p>
+                ) : (
+                    projects.map(p => (
+                        <div key={p.id} className="project-item">
+                            <h3>{p.title} {p.featured && <span>(Featured)</span>}</h3>
+                            <p>{p.description}</p>
+                            
+                            {p.tags && (
+                                <p><strong>Tags:</strong> {p.tags.join(", ")}</p>
+                            )}
 
-            
+                            {p.image && (
+                                <img 
+                                    src={p.image} 
+                                    alt={p.title} 
+                                    style={{ width: "150px", height: "auto" }}
+                                />
+                            )}
+                            
+                            <div className="actions">
+                                <button onClick={() => handleEdit(p)}>Edit</button>
+                                <button onClick={() => handleDelete(p.id)}>Delete</button>
+                                <button 
+                                    onClick={() => handleSetFeatured(p.id)}
+                                    disabled={pendingId === p.id}
+                                >
+                                    {p.featured ? "Unset Featured" : "Set Featured"}
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }
