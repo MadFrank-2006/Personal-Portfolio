@@ -29,6 +29,10 @@ function AdminDashboard() {
             featured: formData.featured
         };
 
+        if (file) {
+            data.file = file;
+        }
+
         try {
             if (isEditing) {
                 await updateProject(editId, data);

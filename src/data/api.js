@@ -12,7 +12,7 @@ import {
   limit,
   serverTimestamp
 } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadString, getDownloadURL, deleteObject, getStorage, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebase';
 
 const col = collection(db, 'projects');
@@ -34,11 +34,13 @@ export async function getProjects() {
 }
 
 // Creates a new project
-export async function createProject({ title, description, image = "", url, tags = [], featured = false}) {
+export async function createProject({ title, description, file, url, tags = [], featured = false}) {
+    const imageUrl = file ? await uploadImageFile(file) : "";
+    
     const ref = await addDoc(col, {
         title: title.trim(),
         description: description.trim(),
-        image: image.trim(),
+        image: imageUrl,
         url: url.trim(),
         tags: tags.map(tag => tag.trim()).filter(Boolean),
         featured: !!featured,
@@ -52,11 +54,15 @@ export async function updateProject( id, patch) {
     const ref = doc(db, "projects", id);
     // Normalize patch data
     const norm = { ...patch };
+
+    if (patch.file) {
+        norm.image = await uploadImageFile(patch.file, currentData.image);
+    }
+
     if (norm.title) norm.title = norm.title.trim();
     if (norm.description) norm.description = norm.description.trim();
-    if (norm.image) norm.image = norm.image.trim();
     if (norm.url) norm.url = norm.url.trim();
-    if (Array.isArray(norm.tages)) { norm.tags = norm.tags.map(tag => tag.trim()).filter(Boolean); }
+    if (Array.isArray(norm.tags)) { norm.tags = norm.tags.map(tag => tag.trim()).filter(Boolean); }
     if (norm.featured !== undefined) norm.featured = !!norm.featured;
     norm.updatedAt = serverTimestamp();
     await updateDoc(ref, norm);
@@ -77,4 +83,24 @@ export async function setFeatured(id) {
         batch.update(doc(db, "projects", doc.id), { featured: isTarget });
     });
     await batch.commit();
+}
+
+export async function uploadImageFile(file, existingUrl = null) {
+  if (!file) return existingUrl; // If no new file, keep old URL
+
+  const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+
+  // If replacing, delete old file
+  if (existingUrl) {
+    try {
+      const oldRef = ref(storage, existingUrl);
+      await deleteObject(oldRef);
+    } catch (e) {
+      console.warn('Old image not found or already deleted.');
+    }
+  }
+
+  return url;
 }
