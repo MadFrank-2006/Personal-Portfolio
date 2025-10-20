@@ -1,35 +1,33 @@
 # Maddox Franklin – Portfolio
 
 Welcome to my personal portfolio site!  
-Built from scratch using React + Vite, this site showcases my projects, development skills, and blog content. 
+Built from scratch using React + Vite, this site showcases my projects and development skills. 
 
 ## 🔧 Tech Stack
 
 - React
 - Vite
-- CSS Modules
+- Firebase
+- Custom APIs
 - GitHub + Netlify for deployment
 
 ## ✨ Features
 
 - Dynamic project management system (admin-only)
-- Optional blog per project
-- Responsive layout with dark mode (coming soon)
+- Responsive layout
 - Clean, scalable codebase with modular structure
 
 ## 📂 Folder Structure
 
 src/
 ├── components/
+├── auth/
+├── data/
 ├── pages/
 ├── assets/
 ├── styles/
 ├── App.jsx
 └── main.jsx
-
-## 🚀 Live Demo
-
-[https://maddoxportfolioprototype.netlify.app](https://maddoxportfolioprototype.netlify.app)
 
 ## 📝 License
 
