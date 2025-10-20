@@ -14,7 +14,7 @@ function FeaturedProject({ title, description, image, tags, id }) {
 
     return (
         <div className="project-card" onClick={handleClick}>
-                <img src={image} alt="RE3 Cover" className="featured-image" />
+                <img src={image} alt={title} className="featured-image" />
                 <div className="project-details">
                     <h3>{title}</h3>
                     <p>{description}
