@@ -10,7 +10,8 @@ import {
   where,
   getDoc, 
   limit,
-  serverTimestamp
+  serverTimestamp,
+  writeBatch
 } from 'firebase/firestore';
 import { ref, uploadString, getDownloadURL, deleteObject, getStorage, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebase';
@@ -50,57 +51,93 @@ export async function createProject({ title, description, file, url, tags = [], 
 }
 
 // Updates an existing project
-export async function updateProject( id, patch) {
+export async function updateProject(id, patch) {
     const ref = doc(db, "projects", id);
+    const docSnap = await getDoc(ref);
+    const currentData = docSnap.data();
     // Normalize patch data
-    const norm = { ...patch };
+    const norm = { };
 
-    if (patch.file) {
-        norm.image = await uploadImageFile(patch.file, currentData.image);
+    if (patch.title) norm.title = patch.title.trim();
+    if (patch.description) norm.description = patch.description.trim();
+    if (patch.url) norm.url = patch.url.trim();
+
+    // Strict tag formatting
+    if (patch.tags) {
+        norm.tags = Array.isArray(patch.tags)
+            ? patch.tags.map(tag => tag.trim()).filter(Boolean)
+            : [];
     }
 
-    if (norm.title) norm.title = norm.title.trim();
-    if (norm.description) norm.description = norm.description.trim();
-    if (norm.url) norm.url = norm.url.trim();
-    if (Array.isArray(norm.tags)) { norm.tags = norm.tags.map(tag => tag.trim()).filter(Boolean); }
-    if (norm.featured !== undefined) norm.featured = !!norm.featured;
+    // Boolean field
+    if (typeof patch.featured === "boolean") {
+        norm.featured = patch.featured;
+    }
+
+    // Handle image only if a new file was selected
+    if (patch.file instanceof File) {
+        norm.image = await uploadImageFile(patch.file, currentData.image);
+    } else {
+        // Keep current image if no new file provided
+        norm.image = currentData.image;
+    }
+
+    // Prevent raw `file` key from being stored in Firestore
+    delete norm.file;
+    
     norm.updatedAt = serverTimestamp();
     await updateDoc(ref, norm);
 }
 
 // Deletes a project
 export async function deleteProject(id) {
-    await deleteDoc(doc(db, "projects", id));
+    if (!id || typeof id !== "string") {
+        console.error("Invalid ID passed to deleteProject", id);
+        return;
+    }
+    const ref = doc(db, "projects", id);
+    await deleteDoc(ref);
 }
+
 
 // Set featured project, ensures only one project is featured at a time. Function is atomic, uses batch so it either fully completes or fully fails.
 export async function setFeatured(id) {
-    const q = query(col);
-    const snap = await getDocs(q);
-    const batch = writeBatch(db);
-    snap.forEach(doc => {
-        const isTarget = doc.id === id;
-        batch.update(doc(db, "projects", doc.id), { featured: isTarget });
+    const snap = await getDocs(col);      // get all projects
+    const batch = writeBatch(db);         // create a batch
+
+    snap.forEach(projectDoc => {
+        const isTarget = projectDoc.id === id;
+        const projectRef = doc(db, "projects", projectDoc.id);
+        batch.update(projectRef, { featured: isTarget });
     });
+
     await batch.commit();
 }
 
-export async function uploadImageFile(file, existingUrl = null) {
-  if (!file) return existingUrl; // If no new file, keep old URL
 
+export async function uploadImageFile(file, existingUrl = null) {
+  // No new file? Keep the old image URL safely.
+  if (!file) return existingUrl;
+
+  // Upload new file to Firebase Storage
   const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`);
   await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
+  const newUrl = await getDownloadURL(storageRef);
 
-  // If replacing, delete old file
-  if (existingUrl) {
+  // Try deleting the old image ONLY if we can convert its URL
+  if (existingUrl && existingUrl.includes("https://")) {
     try {
-      const oldRef = ref(storage, existingUrl);
-      await deleteObject(oldRef);
+      // Convert public URL to a valid storage path
+      const path = existingUrl.split("/o/")[1]?.split("?")[0];
+      if (path) {
+        const oldRef = ref(storage, decodeURIComponent(path));
+        await deleteObject(oldRef);
+      }
     } catch (e) {
-      console.warn('Old image not found or already deleted.');
+      console.warn("Could not delete old image:", e);
     }
   }
 
-  return url;
+  return newUrl;
 }
+

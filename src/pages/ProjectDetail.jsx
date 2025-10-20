@@ -12,7 +12,7 @@ function ProjectDetail() {
     })
 
     const { id } = useParams();
-    const project = projects.find((project) => project.id === parseInt(id));
+    const project = projects.find((project) => project.id === id);
 
     if (!project) {
         return <div>Project not found</div>;
