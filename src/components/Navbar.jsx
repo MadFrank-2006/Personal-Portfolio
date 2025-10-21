@@ -8,7 +8,7 @@ function Navbar() {
         <nav className="navbar">
             <div className="nav-title">
                 <Link to="/" className="nav-link">
-                    Maddox Franklin
+                    <img src="/mdf-horizontal-logo.svg" alt="mdf horizontal logo" className="nav-logo" />
                 </Link>
             </div>
             <div className="nav-right">

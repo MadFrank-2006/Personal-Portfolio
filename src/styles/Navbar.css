@@ -12,6 +12,12 @@
     z-index: 1000;
 }
 
+.nav-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
 .nav-title {
     padding-left: 1rem;
     font-size: 1.5rem;
